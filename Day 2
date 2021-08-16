@@ -1,0 +1,154 @@
+//import java.io.*;
+//import java.util.*;
+//import java.text.*;
+//
+//
+///*
+// * To change this license header, choose License Headers in Project Properties.
+// * To change this template file, choose Tools | Templates
+// * and open the template in the editor.
+// */
+///**
+// *
+// * @author M
+// */
+//public class Day2 {
+//
+//    /**
+//     * @param args the command line arguments
+//     */
+//    public static void main(String[] args) {
+//        ArrayList<String> passwords = new ArrayList<String>();
+//
+//        BufferedReader br = null;
+//
+//        try {
+//            br = new BufferedReader(new FileReader("day2.txt"));
+//            String codes;
+//            while ((codes = br.readLine()) != null) {
+//                passwords.add(codes);
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } finally {
+//            try {
+//                br.close();
+//            } catch (IOException ex) {
+//                ex.printStackTrace();
+//            }
+//        }
+//        String[] NumList = new String[passwords.size()];
+//        passwords.toArray(NumList);
+//
+//        int valid = 0;
+//        int minVal = 0;
+//        int maxVal = 0;
+//
+//        for (int i = 0; i < 1; i++) {
+//            int count = 0;
+//            if ((NumList[i].indexOf("-") - 1) - NumList[i].indexOf(NumList[i].substring(0)) == 0) {
+//                minVal = Integer.parseInt(NumList[i].substring(NumList[i].indexOf("-") - 1));
+//            } else {
+//                minVal = Integer.parseInt(NumList[i].substring(0, NumList[i].indexOf("-") - 1).trim());
+//            }
+//            if ((NumList[i].indexOf(" ") - 1) - (NumList[i].indexOf("-") + 1) == 0) {
+//                    maxVal = Integer.parseInt(NumList[i].substring(NumList[i].indexOf("-") + 1).trim());
+//            } else {
+//                maxVal = Integer.parseInt(NumList[i].substring(NumList[i].indexOf("-") + 1, NumList[i].indexOf(" ") - 1));
+//            }
+//
+//            char letter = NumList[i].charAt(NumList[i].indexOf(" ") + 1);
+//            String password = NumList[i].substring(NumList[i].indexOf(":") + 2, NumList[i].length());
+//            for (int j = 0; j < password.length(); j++) {
+//                //System.out.print(password.charAt(j));
+//                if (password.charAt(j) == letter) {
+//                    count++;
+//                }
+//            }
+//            if (count >= minVal && count <= maxVal) {
+//                valid++;
+//            }
+//        }
+//        System.out.println("There are " + valid + " valid passwords");
+//    }
+//
+//}
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.io.*;
+import java.util.*;
+
+
+public class Day2 {
+  //  public static String[] lines;
+
+//    static {
+//        lines = Util.getInput("day2.txt");
+//    }
+
+
+    public static void main (String[]args) {
+         ArrayList<String> passwords = new ArrayList<String>();
+        
+            BufferedReader br = null;
+
+        try {
+            br = new BufferedReader(new FileReader("day2.txt"));
+            String codes;
+            while ((codes = br.readLine()) != null) {
+                passwords.add(codes);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                br.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+        String[] lines = new String[passwords.size()];
+        passwords.toArray(lines);
+            //part 1//
+        int validCount = 0;
+        String regex = "(\\d+)-(\\d+)\\s+(\\w):\\s+(\\w+)";
+        for (String line : lines) {
+            Matcher m = Pattern.compile(regex).matcher(line);
+            if (m.find()) {
+                int min = Integer.parseInt(m.group(1));
+                int max = Integer.parseInt(m.group(2));
+                String req = m.group(3);
+                String pw = m.group(4);
+                Matcher findOccurrences = Pattern.compile(req).matcher(pw);
+                int count = 0;
+                while (findOccurrences.find()) {
+                    ++count;
+                }
+                if (count >= min && count <= max) {
+                    ++validCount;
+                }
+            }
+        }   //Part 2//
+        System.out.println(validCount);
+         validCount = 0;
+         regex = "(\\d+)-(\\d+)\\s+(\\w):\\s+(\\w+)";
+        for (String line : lines) {
+            Matcher m = Pattern.compile(regex).matcher(line);
+            if (m.find()) {
+                int pos1 = Integer.parseInt(m.group(1)) - 1;
+                int pos2 = Integer.parseInt(m.group(2)) - 1;
+                char req = m.group(3).charAt(0);
+                String pw = m.group(4);
+                if (pw.charAt(pos1) == req && pw.charAt(pos2) != req ||
+                        pw.charAt(pos2) == req && pw.charAt(pos1) != req) {
+                    ++validCount;
+                }
+            }
+        }
+        System.out.println(validCount);
+    }
+     public static void partTwo() {
+        
+    }
+}
