@@ -1,0 +1,73 @@
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author M
+ */
+public class Day1 {
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) {
+        ArrayList<String> Entries = new ArrayList<String>();
+
+        BufferedReader br = null;
+
+        try {                      
+            br = new BufferedReader(new FileReader("day1.txt"));
+            String Nums;
+            while ((Nums = br.readLine()) != null) {    
+                Entries.add(Nums);   
+            }
+        } catch (IOException e) {   
+            e.printStackTrace();
+        } finally {
+            try {              
+                br.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+        
+        String[] NumList = new String[Entries.size()];
+        Entries.toArray(NumList);
+        Integer []Nums = new Integer [NumList.length];
+            ////PART 1 /////////
+//        for (int i = 0; i < NumList.length; i++) {
+//            Nums[i] = Integer.parseInt(NumList[i]);
+//            for (int j = i + 1; j < NumList.length; j++) {
+//               Nums[j] = Integer.parseInt(NumList[j]); 
+//                if (Nums[i] + Nums[j] == 2020) {
+//                    System.out.println(Nums[i] + " + " + Nums[j] + " = " + (Nums[i] + Nums[j]));
+//                    System.out.println(Nums[i] + " * " + Nums[j] + " = " + (Nums[i]*Nums[j]));
+//                }
+//            }
+//        } /// PART 2 ///
+        for (int i = 0; i < NumList.length; i++) {
+            Nums[i] = Integer.parseInt(NumList[i]);
+            for (int j = i + 1; j < NumList.length; j++) {
+               Nums[j] = Integer.parseInt(NumList[j]);
+               for (int k = i + 2; k < NumList.length; k++) {
+                   Nums[k] = Integer.parseInt(NumList[k]);
+                   if (Nums[i] + Nums[j] + Nums[k] == 2020) {
+                    System.out.println(Nums[i] + " + " + Nums[j] + " + " + Nums[k] + " = " + (Nums[i] + Nums[j] + Nums[k]));
+                    System.out.println(Nums[i] + " * " + Nums[j] + " * " + Nums[k] + " = " + (Nums[i] * Nums[j] * Nums[k]));
+                }
+               }
+                
+            }
+        }
+    }
+    
+}
