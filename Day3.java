@@ -6,7 +6,7 @@
 
 /**
  *
- * @author Michael
+ * @author M
  */
 import java.io.*;
 import java.util.*;
